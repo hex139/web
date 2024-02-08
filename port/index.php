@@ -1,16 +1,6 @@
-<?php
-// Function to get the list of files in the current directory
-function getFiles() {
-    $files = scandir(__DIR__);
-    $files = array_diff($files, array('.', '..'));
-    return $files;
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Codine Three Dimensional Designs</title>
@@ -78,20 +68,13 @@ function getFiles() {
 </head>
 <body>
     <h1>Codine Three Dimensional Designs</h1>
-    <ul class="file-list">
-        <?php
-        $files = getFiles();
-        foreach ($files as $file) {
-            echo '<li><a href="' . $file . '">' . $file . '</a></li>';
-        }
-        ?>
+    <ul class="file-list" id="fileList">
+        <!-- Files will be dynamically added here -->
     </ul>
-    
-        <!-- 728x90 Banner-->
-<a href="https://cpm.link/ref/491990"><img src="//cpm.link/webroot/img/cpm/728x90.png" title="Click to Make Money Register" /></a>
-<!-- 728x90 Banner--> 
 
-
+    <!-- 728x90 Banner-->
+    <a href="https://cpm.link/ref/491990"><img src="//cpm.link/webroot/img/cpm/728x90.png" title="Click to Make Money Register" /></a>
+    <!-- 728x90 Banner--> 
 
     <h2>To contact me, please email me at</h2>
     <h2>khattabali106@gmail.com</h2>
@@ -100,11 +83,9 @@ function getFiles() {
         <a href="https://www.buymeacoffee.com/codine" target="_blank">Buy me a coffee</a>
     </h1>
     
-    
     <h1>
         <a href="https://cpm.link/ref/491990" target="_blank">Make Money Buy shortening link</a>
     </h1>
-    
 
     <h1>
         <a href="https://github.com/codine7" target="_blank">Follow me on GitHub</a>
@@ -117,5 +98,34 @@ function getFiles() {
     <footer>
         © Copyrights Ali Khattab 2024
     </footer>
+
+    <script>
+        // Function to get the list of files in the current directory
+        function getFiles() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var files = JSON.parse(this.responseText);
+                    var fileList = document.getElementById("fileList");
+                    fileList.innerHTML = ""; // Clear previous list
+                    files.forEach(function(file) {
+                        var li = document.createElement("li");
+                        var a = document.createElement("a");
+                        a.href = file;
+                        a.textContent = file;
+                        li.appendChild(a);
+                        fileList.appendChild(li);
+                    });
+                }
+            };
+            xhttp.open("GET", "files.json", true); // Assuming files.json contains the list of files
+            xhttp.send();
+        }
+
+        // Call the function when the page loads
+        window.onload = function() {
+            getFiles();
+        };
+    </script>
 </body>
 </html>
